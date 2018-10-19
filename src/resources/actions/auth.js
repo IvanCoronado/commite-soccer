@@ -1,34 +1,39 @@
 import axios from 'axios'
 import { actionTypes } from 'redux-resource'
-import createActionCreators from 'redux-resource-action-creators';
+import createActionCreators from 'redux-resource-action-creators'
 
 export const authCreateAction = createActionCreators('create', {
     resourceType: 'auth',
-    requestKey: 'login'
-});
+    requestKey: 'login',
+})
 
-export const login = (body) => dispatch => {
+export const login = body => dispatch => {
     dispatch(authCreateAction.pending())
 
-    return axios.post('http://localhost:1337/auth/local', body)
+    return axios
+        .post('http://localhost:1337/auth/local', body)
         .then(({ data: { jwt, user } }) => {
-            dispatch(authCreateAction.succeeded({
-                resources: [{
-                    id: 'me',
-                    user: user.id,
-                    token: jwt
-                }]
-            }))
+            dispatch(
+                authCreateAction.succeeded({
+                    resources: [
+                        {
+                            id: 'me',
+                            user: user.id,
+                            token: jwt,
+                        },
+                    ],
+                })
+            )
             dispatch({
                 type: actionTypes.UPDATE_RESOURCES,
                 resources: {
                     players: {
-                        [user.id]: user
-                    }
-                }
+                        [user.id]: user,
+                    },
+                },
             })
         })
-        .catch(({ response: { data: { message }}}) => {
+        .catch(({ response: { data: { message } } }) => {
             dispatch(authCreateAction.failed())
             throw message
         })
@@ -38,7 +43,7 @@ export const logout = () => dispatch => {
     dispatch({
         type: actionTypes.DELETE_RESOURCES,
         resources: {
-            auth: ['me']
-        }
+            auth: ['me'],
+        },
     })
 }
