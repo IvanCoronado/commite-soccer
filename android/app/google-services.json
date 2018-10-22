@@ -1,0 +1,42 @@
+{
+    "project_info": {
+        "project_number": "985099843984",
+        "firebase_url": "https://commite-soccer.firebaseio.com",
+        "project_id": "commite-soccer",
+        "storage_bucket": "commite-soccer.appspot.com"
+    },
+    "client": [
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:985099843984:android:e7836acedf285e39",
+                "android_client_info": {
+                    "package_name": "com.commitesoccer"
+                }
+            },
+            "oauth_client": [
+                {
+                    "client_id": "985099843984-c4sgt5m4d6h9gedg31qjqgasepq4sc1e.apps.googleusercontent.com",
+                    "client_type": 3
+                }
+            ],
+            "api_key": [
+                {
+                    "current_key": "AIzaSyAzUSAmOYmpsNvL0O8z57VSNpwuSaDm8sw"
+                }
+            ],
+            "services": {
+                "analytics_service": {
+                    "status": 1
+                },
+                "appinvite_service": {
+                    "status": 1,
+                    "other_platform_oauth_client": []
+                },
+                "ads_service": {
+                    "status": 2
+                }
+            }
+        }
+    ],
+    "configuration_version": "1"
+}

@@ -4,13 +4,13 @@ import { createSwitchNavigator, createStackNavigator } from 'react-navigation'
 import { AuthLoadingScreen } from '../containers/AuthLoadingScreen/index'
 import { SignInScreen } from '../containers/SignInScreen/index'
 import { SignUpScreen } from '../containers/SignUpScreen/index'
-import { HomeScreen } from '../containers/Home/index'
+import { HomeTabs } from '../containers/HomeTabs/index'
 
 const AuthStack = createStackNavigator({
     SignIn: SignInScreen,
     SignUp: SignUpScreen,
 })
-const AppStack = createStackNavigator({ Home: HomeScreen })
+const AppStack = createStackNavigator({ Home: HomeTabs })
 
 export const Navigator = createSwitchNavigator(
     {
