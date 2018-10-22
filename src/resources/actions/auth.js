@@ -2,19 +2,19 @@ import axios from 'axios'
 import { actionTypes } from 'redux-resource'
 import createActionCreators from 'redux-resource-action-creators'
 
-export const authCreateAction = createActionCreators('create', {
+export const signInAction = createActionCreators('create', {
     resourceType: 'auth',
-    requestKey: 'login',
+    requestKey: 'signIn',
 })
 
-export const login = body => dispatch => {
-    dispatch(authCreateAction.pending())
+export const signIn = body => dispatch => {
+    dispatch(signInAction.pending())
 
     return axios
         .post('http://localhost:1337/auth/local', body)
         .then(({ data: { jwt, user } }) => {
             dispatch(
-                authCreateAction.succeeded({
+                signInAction.succeeded({
                     resources: [
                         {
                             id: 'me',
@@ -34,7 +34,44 @@ export const login = body => dispatch => {
             })
         })
         .catch(({ response: { data: { message } } }) => {
-            dispatch(authCreateAction.failed())
+            dispatch(signInAction.failed())
+            throw message
+        })
+}
+
+export const signUpAction = createActionCreators('create', {
+    resourceType: 'auth',
+    requestKey: 'signUp',
+})
+
+export const signUp = body => dispatch => {
+    dispatch(signUpAction.pending())
+
+    return axios
+        .post('http://localhost:1337/auth/local/register', body)
+        .then(({ data: { jwt, user } }) => {
+            dispatch(
+                signUpAction.succeeded({
+                    resources: [
+                        {
+                            id: 'me',
+                            user: user.id,
+                            token: jwt,
+                        },
+                    ],
+                })
+            )
+            dispatch({
+                type: actionTypes.UPDATE_RESOURCES,
+                resources: {
+                    players: {
+                        [user.id]: user,
+                    },
+                },
+            })
+        })
+        .catch(({ response: { data: { message } } }) => {
+            dispatch(signUpAction.failed())
             throw message
         })
 }

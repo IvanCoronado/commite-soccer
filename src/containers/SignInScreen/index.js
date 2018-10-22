@@ -1,16 +1,16 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Button, TextInput, View, Text } from 'react-native'
+import { TouchableHighlight, TextInput, View, Text } from 'react-native'
 import { Formik } from 'formik'
-import { login } from '../../resources/actions/auth'
+import { signIn } from '../../resources/actions/auth'
 
 @connect(
     state => ({}),
     dispatch =>
         bindActionCreators(
             {
-                login,
+                signIn,
             },
             dispatch
         )
@@ -19,7 +19,7 @@ export class SignInScreen extends React.PureComponent {
     signIn = (values, { setSubmitting, setErrors }) => {
         setSubmitting(true)
         this.props
-            .login(values)
+            .signIn(values)
             .then(() => {
                 setSubmitting(false)
                 this.props.navigation.navigate('App')
@@ -29,7 +29,7 @@ export class SignInScreen extends React.PureComponent {
                 setErrors({ global: err })
             })
     }
-
+    goToSignUp = () => this.props.navigation.navigate('SignUp')
     render() {
         return (
             <View style={{ flex: 1 }}>
@@ -71,15 +71,17 @@ export class SignInScreen extends React.PureComponent {
                                             {errors.global}
                                         </Text>
                                     )}
-                                    <Button
-                                        onPress={handleSubmit}
-                                        title="Login"
-                                    />
+                                    <TouchableHighlight onPress={handleSubmit}>
+                                        <Text>Login</Text>
+                                    </TouchableHighlight>
                                 </>
                             )}
                         </View>
                     )}
                 </Formik>
+                <TouchableHighlight onPress={this.goToSignUp}>
+                    <Text>No tengo cuenta</Text>
+                </TouchableHighlight>
             </View>
         )
     }
