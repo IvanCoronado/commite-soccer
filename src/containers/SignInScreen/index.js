@@ -20,7 +20,7 @@ export class SignInScreen extends React.PureComponent {
         setSubmitting(true)
         this.props
             .signIn(values)
-            .then(() => {
+            .then(user => {
                 setSubmitting(false)
                 this.props.navigation.navigate('App')
             })
@@ -34,7 +34,7 @@ export class SignInScreen extends React.PureComponent {
         return (
             <View style={{ flex: 1 }}>
                 <Formik
-                    initialValues={{ identifier: '', password: '' }}
+                    initialValues={{ email: '', password: '' }}
                     onSubmit={this.signIn}
                 >
                     {({
@@ -52,11 +52,9 @@ export class SignInScreen extends React.PureComponent {
                                 <>
                                     <TextInput
                                         style={{ width: '100%' }}
-                                        onChangeText={handleChange(
-                                            'identifier'
-                                        )}
-                                        onBlur={handleBlur('identifier')}
-                                        value={values.identifier}
+                                        onChangeText={handleChange('email')}
+                                        onBlur={handleBlur('email')}
+                                        value={values.email}
                                         keyboardType="email-address"
                                     />
                                     <TextInput

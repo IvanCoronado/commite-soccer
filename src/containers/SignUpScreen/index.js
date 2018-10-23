@@ -59,15 +59,6 @@ export class SignUpScreen extends React.PureComponent {
                                             width: '100%',
                                             backgroundColor: 'white',
                                         }}
-                                        onChangeText={handleChange('username')}
-                                        onBlur={handleBlur('username')}
-                                        value={values.username}
-                                    />
-                                    <TextInput
-                                        style={{
-                                            width: '100%',
-                                            backgroundColor: 'white',
-                                        }}
                                         onChangeText={handleChange('email')}
                                         onBlur={handleBlur('email')}
                                         value={values.email}

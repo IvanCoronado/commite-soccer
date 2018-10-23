@@ -8,7 +8,8 @@
         "android": "react-native run-android",
         "ios": "react-native run-ios",
         "debugger": "open 'rndebugger://set-debugger-loc?host=localhost&port=8081'",
-        "prettier-all": "./node_modules/prettier/bin-prettier.js --write \"**/*.js\""
+        "prettier-all": "./node_modules/prettier/bin-prettier.js --write \"**/*.js\"",
+        "deploy-rules": "firebase deploy --only firestore:rules"
     },
     "husky": {
         "hooks": {

@@ -20,10 +20,11 @@ import { logout } from '../../resources/actions/auth'
 export class ProfileScreen extends React.PureComponent {
     render() {
         const { logout, me } = this.props
-        console.log(me)
+
         return (
             <View style={{ flex: 1 }}>
                 <Text>Hola, </Text>
+
                 <TouchableHighlight onPress={logout}>
                     <Text>Logout</Text>
                 </TouchableHighlight>

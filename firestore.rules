@@ -1,0 +1,19 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+        return request.auth != null
+    }
+
+    function getRole(role) {
+      return get(/databases/$(database)/documents/Players/$(request.auth.uid)).data.role == role
+    }
+
+     match /cities/{city} {
+       allow get, list;
+     }
+
+     match /cities/{city} {
+       allow create, update, delete: if isSignedIn() && getRole('admin') == true;
+     }
+  }
+}

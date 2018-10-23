@@ -7,24 +7,11 @@ import { store, persitor } from './store'
 import { theme } from './theme'
 import { Navigator } from './navigator/index'
 
-import firebase from 'react-native-firebase'
-
 global.XMLHttpRequest = global.originalXMLHttpRequest
     ? global.originalXMLHttpRequest
     : global.XMLHttpRequest
 
 export class App extends Component {
-    componentDidMount() {
-        firebase
-            .auth()
-            .signInAnonymously()
-            .then(credential => {
-                if (credential) {
-                    console.log('default app user ->', credential.user.toJSON())
-                }
-            })
-            .catch(err => console.log(err))
-    }
     render() {
         return (
             <Provider store={store}>

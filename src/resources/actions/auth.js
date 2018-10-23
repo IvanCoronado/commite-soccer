@@ -1,4 +1,4 @@
-import axios from 'axios'
+import firebase from 'react-native-firebase'
 import { actionTypes } from 'redux-resource'
 import createActionCreators from 'redux-resource-action-creators'
 
@@ -7,33 +7,25 @@ export const signInAction = createActionCreators('create', {
     requestKey: 'signIn',
 })
 
-export const signIn = body => dispatch => {
+export const signIn = ({ email, password }) => dispatch => {
     dispatch(signInAction.pending())
 
-    return axios
-        .post('http://localhost:1337/auth/local', body)
-        .then(({ data: { jwt, user } }) => {
+    return firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(({ user }) => {
             dispatch(
                 signInAction.succeeded({
                     resources: [
                         {
                             id: 'me',
-                            user: user.id,
-                            token: jwt,
+                            user: user.uid,
                         },
                     ],
                 })
             )
-            dispatch({
-                type: actionTypes.UPDATE_RESOURCES,
-                resources: {
-                    players: {
-                        [user.id]: user,
-                    },
-                },
-            })
         })
-        .catch(({ response: { data: { message } } }) => {
+        .catch(({ code, message }) => {
             dispatch(signInAction.failed())
             throw message
         })
@@ -44,19 +36,19 @@ export const signUpAction = createActionCreators('create', {
     requestKey: 'signUp',
 })
 
-export const signUp = body => dispatch => {
+export const signUp = ({ email, password }) => dispatch => {
     dispatch(signUpAction.pending())
 
-    return axios
-        .post('http://localhost:1337/auth/local/register', body)
-        .then(({ data: { jwt, user } }) => {
+    return firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(({ user }) => {
             dispatch(
                 signUpAction.succeeded({
                     resources: [
                         {
                             id: 'me',
-                            user: user.id,
-                            token: jwt,
+                            user: user.uid,
                         },
                     ],
                 })
@@ -65,22 +57,30 @@ export const signUp = body => dispatch => {
                 type: actionTypes.UPDATE_RESOURCES,
                 resources: {
                     players: {
-                        [user.id]: user,
+                        [user.uid]: user,
                     },
                 },
             })
         })
-        .catch(({ response: { data: { message } } }) => {
+        .catch(({ code, message }) => {
             dispatch(signUpAction.failed())
             throw message
         })
 }
 
 export const logout = () => dispatch => {
-    dispatch({
-        type: actionTypes.DELETE_RESOURCES,
-        resources: {
-            auth: ['me'],
-        },
-    })
+    return firebase
+        .auth()
+        .signOut()
+        .then(() => {
+            dispatch({
+                type: actionTypes.DELETE_RESOURCES,
+                resources: {
+                    auth: ['me'],
+                },
+            })
+        })
+        .catch(({ code, message }) => {
+            console.log(message)
+        })
 }
