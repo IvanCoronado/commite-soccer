@@ -22,7 +22,7 @@ export class SignInScreen extends React.PureComponent {
             .signIn(values)
             .then(user => {
                 setSubmitting(false)
-                this.props.navigation.navigate('App')
+                this.props.navigation.push('Profile')
             })
             .catch(err => {
                 setSubmitting(false)

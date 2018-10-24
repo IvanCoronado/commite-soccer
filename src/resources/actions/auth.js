@@ -2,6 +2,36 @@ import firebase from 'react-native-firebase'
 import { actionTypes } from 'redux-resource'
 import createActionCreators from 'redux-resource-action-creators'
 
+export const signInAnonymousAction = createActionCreators('create', {
+    resourceType: 'auth',
+    requestKey: 'signInAnonymous',
+})
+
+export const signInAnonymous = () => dispatch => {
+    dispatch(signInAnonymousAction.pending())
+
+    return firebase
+        .auth()
+        .signInAnonymously()
+        .then(({ user }) => {
+            dispatch(
+                signInAnonymousAction.succeeded({
+                    resources: [
+                        {
+                            id: 'me',
+                            user: user.uid,
+                            isAnonymous: true,
+                        },
+                    ],
+                })
+            )
+        })
+        .catch(({ code, message }) => {
+            dispatch(signInAnonymousAction.failed())
+            throw message
+        })
+}
+
 export const signInAction = createActionCreators('create', {
     resourceType: 'auth',
     requestKey: 'signIn',
@@ -20,6 +50,7 @@ export const signIn = ({ email, password }) => dispatch => {
                         {
                             id: 'me',
                             user: user.uid,
+                            isAnonymous: false,
                         },
                     ],
                 })
@@ -49,6 +80,7 @@ export const signUp = ({ email, password }) => dispatch => {
                         {
                             id: 'me',
                             user: user.uid,
+                            isAnonymous: false,
                         },
                     ],
                 })

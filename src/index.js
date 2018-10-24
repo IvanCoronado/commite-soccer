@@ -5,7 +5,7 @@ import { ThemeProvider } from 'styled-components'
 import { PersistGate } from 'redux-persist/integration/react'
 import { store, persitor } from './store'
 import { theme } from './theme'
-import { Navigator } from './navigator/index'
+import { RootStack } from './containers/RootStack'
 
 global.XMLHttpRequest = global.originalXMLHttpRequest
     ? global.originalXMLHttpRequest
@@ -30,7 +30,7 @@ export class App extends Component {
                             </View>
                         }
                     >
-                        <Navigator />
+                        <RootStack />
                     </PersistGate>
                 </ThemeProvider>
             </Provider>
